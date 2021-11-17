@@ -273,9 +273,10 @@ namespace UniPushSdk
         /// </summary>
         /// <param name="cids">批量推送用户的cid</param>
         /// <param name="msg">消息内容，注意content不能重复，否则会推送失败</param>
+        /// <param name="isAsync">是否异步推送，如果异步推送的话无法直接获取推送结果</param>
         /// <param name="settings">推送设置</param>
         /// <returns></returns>
-        public async Task<BaseResponse<PushResponse>> BatchPush(List<string> cids, MessageModel msg, SettingsModel settings = null)
+        public async Task<BaseResponse<PushResponse>> BatchPush(List<string> cids, MessageModel msg, bool isAsync = false, SettingsModel settings = null)
         {
             var token = await GetToken();
             if (string.IsNullOrEmpty(token.Data.Token))
