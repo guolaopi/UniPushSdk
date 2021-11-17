@@ -96,7 +96,11 @@ namespace UniPushSdk
             var token = await GetToken();
             if (string.IsNullOrEmpty(token.Data.Token))
             {
-                return null;
+                return new BaseResponse<CreateMessageResponse>
+                {
+                    Code = token.Code,
+                    Msg = token.Msg,
+                };
             }
 
             var url = $"{_ApiBaseUrl}/auth";
@@ -133,7 +137,9 @@ namespace UniPushSdk
                     break;
             }
 
-            var result = await HttpTool.Post<BaseResponse<CreateMessageResponse>>(url, JsonConvert.SerializeObject(request));
+            var result = await HttpTool.Post<BaseResponse<CreateMessageResponse>>(url,
+                                                                                  JsonConvert.SerializeObject(request),
+                                                                                  new Dictionary<string, string> { { "token", token.Data.Token } });
             return result;
         }
 
